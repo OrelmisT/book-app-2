@@ -5,7 +5,11 @@ import Login from './pages/Login.tsx'
 import {createRoutesFromElements, Route, createBrowserRouter, RouterProvider} from 'react-router-dom'
 import Nav from './components/Nav.tsx'
 import { AuthProvider } from './contexts/AuthProvider.tsx'
-import Home from './pages/Home.tsx'
+import Discussions from './pages/Discussions.tsx'
+import Groups from './pages/Groups.tsx'
+import Bookshelf from './pages/Bookshelf.tsx'
+import Search from './pages/Search.tsx'
+import Bookmarks from './pages/Bookmarks.tsx'
 
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -13,7 +17,11 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route>
       <Route path='/login' element={<Login></Login>}/>
       <Route path='/' element={<Nav/>}>
-        <Route path='/home' element={<Home></Home>}></Route>
+        <Route index path='/discussions' element={<Discussions></Discussions>} />
+        <Route path='/groups' element={<Groups></Groups>} />
+        <Route path='/bookshelf' element={<Bookshelf></Bookshelf>} />
+        <Route path='/search' element={<Search></Search>} />
+        <Route path='/bookmarks' element={<Bookmarks></Bookmarks>} />
 
       </Route>
     </Route>

@@ -16,7 +16,7 @@ const Login = () => {
     
     const handleSubmit = (e:React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        nav('/home')
+        nav('/discussions')
 
     }
 
