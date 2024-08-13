@@ -4,6 +4,8 @@ import { MdOutlineMail } from "react-icons/md";
 import { PiPassword } from "react-icons/pi";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import{login} from '../store/authSlice'
 
 
 const Login = () => {
@@ -12,10 +14,17 @@ const Login = () => {
     const [signUpPassVisible, setSignUpPassVisible] = useState(false)
     const [signUpPassConfirmVisible, setSignUpPassConfirmVisible] = useState(false)
     const [loginPassVisible, setLoginPassVisible] = useState(false)
+    const [emailSignUpInput, setEmailSignUpInput] = useState('')
+    const [passwordSignUpInput, setPasswordSignUpInput] = useState('')
+    const [confirmPasswordSignUpInput, setConfirmPasswordSignUpInput] = useState('')
+    const [emailLoginUpInput, setEmailLoginInput] = useState('')
+    const [passwordLoginInput, setPasswordLoginInput] = useState('')
     const nav = useNavigate()
+    const dispatch = useDispatch()
     
     const handleSubmit = (e:React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
+        dispatch(login(emailSignUpInput))
         nav('/discussions')
 
     }
@@ -42,18 +51,18 @@ const Login = () => {
                             <label className='input-label'>
                             EMAIL:
                             </label>
-                            <input type='email' placeholder='example@email.com'></input>
+                            <input type='email' value={emailSignUpInput} onChange={(e) => setEmailSignUpInput(e.target.value)} placeholder='example@email.com'></input>
                             <MdOutlineMail  size={28} style={{position:'absolute', right:'42px', top:'105px'}}></MdOutlineMail>
                             <label className='input-label' style={{marginTop:'15px'}}>
                                 PASSWORD:
                             </label>
-                            <input type={signUpPassVisible? 'text': 'password'} placeholder='password'></input>
+                            <input value={passwordSignUpInput} type={signUpPassVisible? 'text': 'password'} onChange={(e) => setPasswordSignUpInput(e.target.value)} placeholder='password'></input>
                             <PiPassword size={28}  style={{position:'absolute', right:'43px', top:'185px'}}></PiPassword>
                             {signUpPassVisible ? <FaRegEye className='pointer-on-hover' style={{position:'absolute', 'right': '45px', 'top': '223px'}} onClick={() => setSignUpPassVisible(false)}/> : <FaRegEyeSlash className='pointer-on-hover' onClick={() => setSignUpPassVisible(true)} style={{position:'absolute', 'right': '45px', 'top': '223px'}}/>}
                             <label className='input-label' style={{marginTop:'15px'}}>
                                 CONFIRM PASSWORD:
                             </label>
-                            <input type={signUpPassConfirmVisible ? 'text': 'password'} placeholder='password'></input>
+                            <input value={confirmPasswordSignUpInput} onChange={(e) => {setConfirmPasswordSignUpInput(e.target.value)}} type={signUpPassConfirmVisible ? 'text': 'password'} placeholder='password'></input>
                             <PiPassword size={28} style={{position:'absolute', right:'43px', top:'267px'}}></PiPassword>
                             {signUpPassConfirmVisible ? <FaRegEye className='pointer-on-hover' onClick={() => setSignUpPassConfirmVisible(false)} style={{position:'absolute', 'right': '45px', 'top': '305px'}}/> : <FaRegEyeSlash onClick={() => setSignUpPassConfirmVisible(true)} className='pointer-on-hover' style={{position:'absolute', 'right': '45px', 'top': '305px'}}/>}
                             <button type='submit' onClick={(e) => handleSubmit(e)} className="sign-up-button" style={{backgroundColor:'#FF9090', width: '125px', marginLeft:'auto', marginRight:'auto', marginTop: '30px', height:'45px', borderRadius:'10px'}}>
@@ -68,19 +77,19 @@ const Login = () => {
                             <label className='input-label'>
                             EMAIL:
                             </label>
-                            <input type='email' placeholder='example@email.com'></input>
+                            <input value={emailLoginUpInput} onChange={(e) => setEmailLoginInput(e.target.value)} type='email' placeholder='example@email.com'></input>
                             <MdOutlineMail  size={28} style={{position:'absolute', right:'42px', top:'105px'}}></MdOutlineMail>
                             <label className='input-label' style={{marginTop:'15px'}}>
                                 PASSWORD:
                             </label>
-                            <input type={loginPassVisible ? 'text':`password`} placeholder='password'></input>
+                            <input value={passwordLoginInput} onChange={(e)=>setPasswordLoginInput(e.target.value)} type={loginPassVisible ? 'text':`password`} placeholder='password'></input>
                             {loginPassVisible ? <FaRegEye className='pointer-on-hover' style={{position:'absolute', 'right': '45px', 'top': '223px'}} onClick={() => setLoginPassVisible(false)}/> : <FaRegEyeSlash className='pointer-on-hover' onClick={() => setLoginPassVisible(true)} style={{position:'absolute', 'right': '45px', 'top': '223px'}}/>}
                             <PiPassword size={28}  style={{position:'absolute', right:'43px', top:'185px'}}></PiPassword>
                             <button type='submit' onClick={(e) => handleSubmit(e)} className="sign-up-button" style={{backgroundColor:'#FF9090', width: '125px', marginLeft:'auto', marginRight:'auto', marginTop: '30px', height:'45px', borderRadius:'10px'}}>
                                 LOG IN
                             </button>
                             <p style={{marginLeft:'auto', marginRight:'auto', marginTop:'50px'}}>Don't have an account? <span style={{textDecoration:'underline'}} className='pointer-on-hover' onClick={()=>setView('signUp')}>Signup here</span></p>
-                            <p style={{marginLeft:'auto', marginRight:'auto', marginTop:'15px'}}>or <span style={{textDecoration:'underline'}} className='pointer-on-hover' >continue as guest</span></p>
+                            <p style={{marginLeft:'auto', marginRight:'auto', marginTop:'15px'}}>or <span style={{textDecoration:'underline'}} className='pointer-on-hover' onClick={() => nav('/discussions')} >continue as guest</span></p>
 
                             
 

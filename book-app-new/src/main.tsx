@@ -10,6 +10,8 @@ import Groups from './pages/Groups.tsx'
 import Bookshelf from './pages/Bookshelf.tsx'
 import Search from './pages/Search.tsx'
 import Bookmarks from './pages/Bookmarks.tsx'
+import {store} from './store/reduxstore.ts'
+import {Provider} from 'react-redux'
 
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -33,7 +35,9 @@ const router = createBrowserRouter(createRoutesFromElements(
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router}/>
+      <Provider store={store}>
+        <RouterProvider router={router}/>
+      </Provider>
     </AuthProvider>
   </React.StrictMode>,
 )
