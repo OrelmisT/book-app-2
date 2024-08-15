@@ -1,10 +1,12 @@
 import { Router } from "express";
+import { refreshJWT, verifyJWT} from "../auth/jwt";
 
 const router = Router()
 
 
-router.get('/test_auth_router', (req, res) =>{
-    res.send('auth router up and running')
+router.post('/refresh_token', refreshJWT)
+router.post('/testverify', verifyJWT, (req, res) => {
+    res.send('yes')
 })
 
 

@@ -141,6 +141,11 @@ body{
     height: 40px;
     padding-right: 45px;
     position: relative;
+   
+}
+
+.invalidInput{
+    background-color: #ff050518;
 }
 
 .sign-up-button:hover{
@@ -173,6 +178,44 @@ body{
     background-color: black;
     height: 2px;
     width: 150px;
+}
+
+.error-modal{
+    width: 500px;
+    height: 100px;
+    background-color: white;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 6px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 20px;
+    gap: 20px;
+    font-size: 1.5rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top:20%;
+    z-index: 3;
+    padding-right: 40px;
+}
+.modal-active{
+    animation: modal-slide-in 300ms ease-in-out;
+
+}
+
+@keyframes modal-slide-in{
+    0%{
+        opacity: 0;
+        top:30%;
+
+    }
+    100%{
+        opacity: 100%;
+        top:20%
+    }
 }
 
 @media screen and (max-width: 1050px) {
