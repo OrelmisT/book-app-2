@@ -37,12 +37,7 @@ router.post('/signUp', async (req,res) => {
     const hashed_password = await hash(user.password, 10)
     await addDoc(collection(db, 'users'), {email:user.email, password:hashed_password}) 
     res.status(200).cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 *1000, sameSite:'none', secure:true})
-    .json({user: {email:user.email, password:hashed_password}, accessToken})
-    
-    
-    // const accessSecretKey = process.env.ACCESS_TOKEN_SECRET
-    // const refreshSecretKey = process.env.REFRESH_TOKEN_SECRET
-    
+    .json({user: {email:user.email}, accessToken})
 
 })
 
@@ -65,15 +60,16 @@ router.post('/login', async (req, res) => {
     }
     
     const correct_password=  await compare(user.password, stored_user.password)
-    console.log(correct_password)
     if(!correct_password){
         res.status(401).json({'error':'Incorrect password'})
         return
     }
 
+    const accessToken = jwt.sign({email: user.email}, process.env.ACCESS_TOKEN_SECRET || '', {expiresIn: '60s'})
+    const refreshToken = jwt.sign({email: user.email}, process.env.REFRESH_TOKEN_SECRET || '', {expiresIn: '1d'})
 
-
-    res.sendStatus(200)
+    res.status(200).cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 *1000, sameSite:'none', secure:true})
+    .json({user: {email:user.email}, accessToken})
 })
 
 export default router

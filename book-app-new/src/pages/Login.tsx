@@ -91,7 +91,9 @@ const Login = () => {
         }
 
         try{
-            await axios.post('/users/signup', {email: emailSignUpInput, password: passwordSignUpInput})
+           const {data} = await axios.post('/users/signup',{email: emailSignUpInput, password: passwordSignUpInput}, {withCredentials:true})
+           dispatch(login({email:data.user.email, accessToken:data.accessToken}))
+            nav('/discussions')
         }
         catch(error){
             const response_body = error.response?.data
@@ -105,8 +107,7 @@ const Login = () => {
 
             return
         }
-        dispatch(login(emailSignUpInput))
-        nav('/discussions')
+        
 
     }
 
@@ -124,7 +125,10 @@ const Login = () => {
         }
 
         try{
-            await axios.post('/users/login', {email: emailLoginUpInput, password: passwordLoginInput})
+            const {data} = await axios.post('/users/login', {email: emailLoginUpInput, password: passwordLoginInput})
+            console.log(data)
+            dispatch(login({email:data.user.email, accessToken:data.accessToken}))
+            nav('/discussions')
         }
         catch(error){
             const response_body = error.response?.data
@@ -138,9 +142,6 @@ const Login = () => {
 
             return
         }
-        
-        dispatch(login(emailLoginUpInput))
-        nav('/discussions')
 
     }
 

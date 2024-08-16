@@ -1,13 +1,45 @@
-import { UseSelector, useDispatch, useSelector } from "react-redux"
+import {useDispatch, useSelector } from "react-redux"
 import {login, logout} from '../store/authSlice'
+import { useNavigate } from "react-router-dom"
+import { UseDispatch } from "react-redux"
+import axios from '../axios/axios_config'
+import useRefreshToken from "../hooks/useRefreshToken"
 
 const Discussions = () =>{
-    const userId = useSelector((state) => state.auth.userId)
+    const userId = useSelector((state) => state.auth.email)
+    const accessToken = useSelector((state) => state.auth.accessToken)
+    const nav = useNavigate()
+    const dispatch = useDispatch()
+    const refresh = useRefreshToken()
+
+    const signOut = () =>{
+        dispatch(logout())
+        nav('/login')
 
 
-    return(<h1>
-        {userId}
-    </h1>)
+    }
+
+    const testJWTVerify = () => {
+        
+
+    }
+
+    const testRefresh = () =>{
+        // console.log(userId)
+        refresh()
+
+    }
+
+
+    return(
+    <div style={{overflowY:'scroll', width:'calc(100% - 300px)', wordWrap:'break-word'}}>
+        <p style={{wordWrap:'break-word'}}>{userId}</p>
+        <p>{accessToken}</p>
+        <button >Test JWT Verify</button>
+        <button onClick={() => testRefresh()}>Test JWT Refresh</button>
+        <button onClick={() => signOut()}>Sign Out</button>
+    </div>
+    )
 
 }
 
