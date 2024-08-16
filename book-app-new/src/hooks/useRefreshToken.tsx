@@ -9,9 +9,11 @@ const useRefreshToken = () =>{
 
 
     const refresh = async () =>{
+        console.log('refreshing access token')
         const {data} = await axios.post('/auth/refresh_token', {email}, {withCredentials:true, secure:true})
         console.log(data)
         dispatch(login({email, accessToken: data.accessToken}))
+        return data.accessToken
     }
 
     return refresh

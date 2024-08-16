@@ -36,6 +36,10 @@ const useAxiosPrivate = () => {
    
     })
 
+    return axios_private
+
+
+
 
 
 

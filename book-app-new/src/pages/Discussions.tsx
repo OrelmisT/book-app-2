@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { UseDispatch } from "react-redux"
 import axios from '../axios/axios_config'
 import useRefreshToken from "../hooks/useRefreshToken"
+import useAxiosPrivate from "../hooks/useAxiosPrivate"
 
 const Discussions = () =>{
     const userId = useSelector((state) => state.auth.email)
@@ -11,6 +12,7 @@ const Discussions = () =>{
     const nav = useNavigate()
     const dispatch = useDispatch()
     const refresh = useRefreshToken()
+    const axios_private = useAxiosPrivate()
 
     const signOut = () =>{
         dispatch(logout())
@@ -19,7 +21,10 @@ const Discussions = () =>{
 
     }
 
-    const testJWTVerify = () => {
+    const testJWTVerify = async () => {
+        
+        const response = await axios_private.post('/auth/testverify')
+        console.log(response)
         
 
     }
@@ -35,7 +40,7 @@ const Discussions = () =>{
     <div style={{overflowY:'scroll', width:'calc(100% - 300px)', wordWrap:'break-word'}}>
         <p style={{wordWrap:'break-word'}}>{userId}</p>
         <p>{accessToken}</p>
-        <button >Test JWT Verify</button>
+        <button onClick={() => testJWTVerify()}>Test JWT Verify</button>
         <button onClick={() => testRefresh()}>Test JWT Refresh</button>
         <button onClick={() => signOut()}>Sign Out</button>
     </div>
