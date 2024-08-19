@@ -12,6 +12,7 @@ import Search from './pages/Search.tsx'
 import Bookmarks from './pages/Bookmarks.tsx'
 import {store} from './store/reduxstore.ts'
 import {Provider} from 'react-redux'
+import Book from './pages/Book.tsx'
 
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -24,6 +25,7 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route path='/bookshelf' element={<Bookshelf></Bookshelf>} />
         <Route path='/search' element={<Search></Search>} />
         <Route path='/bookmarks' element={<Bookmarks></Bookmarks>} />
+        <Route path='/books/:bookId' element={<Book></Book>} />
 
       </Route>
     </Route>
