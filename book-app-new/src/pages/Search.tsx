@@ -5,7 +5,8 @@ import axios from 'axios'
 import {book} from '../types'
 import BookThumbnail from '../components/BookThumbnail';
 import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box'
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+
 
 
 
@@ -15,6 +16,20 @@ const Search =  () =>{
     const [queryType, setQueryType] = useState('books')  //books or groups
     const [queryResults, setQueryResults] = useState([] as book[])
     const [queryIsLoading, setQueryIsLoading] = useState(false) 
+    const [bookList, setBookList] = useState([] as book[])
+
+    const axiosPrivate = useAxiosPrivate()
+
+
+    const getBookList = async () =>{
+        const {data}=  await axiosPrivate.get('/bookshelves')
+        setBookList(data.bookshelf.bookList as book[])
+    }
+
+    useEffect( ()=>{
+       getBookList()
+
+    },[])
 
     const handleQuerySubmit = async (e:React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key !== 'Enter'){
@@ -53,7 +68,7 @@ const Search =  () =>{
                 :   
                 <div className='book-results'>
                     {queryResults.map((bookResult, index) => 
-                        <BookThumbnail {...bookResult} key={index}></BookThumbnail>
+                        <BookThumbnail bookResult={bookResult} userBookList={bookList} setBookList={setBookList} key={index}></BookThumbnail>
                         )}
                 </div>
             }

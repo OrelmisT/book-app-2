@@ -29,7 +29,7 @@
 
 
 .book-description-container{
-    max-height: 200px;
+    max-height: 130px;
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 20px;

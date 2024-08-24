@@ -3,6 +3,7 @@ import cors from 'cors'
 import AuthRouter from './routers/AuthRouter'
 import UserRouter from './routers/UserRouter'
 import cookieParser from 'cookie-parser'
+import BookShelfRouter from './routers/BookShelfRouter'
 
 
 const port = 4000
@@ -24,6 +25,8 @@ app.get('/', (req, res) => {
 app.use('/auth', AuthRouter)
 
 app.use('/users', UserRouter)
+
+app.use('/bookshelves', BookShelfRouter)
 
 
 app.listen(port, () =>{

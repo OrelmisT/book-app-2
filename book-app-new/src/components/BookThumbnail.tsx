@@ -2,13 +2,17 @@ import { book } from "../types"
 import '../styles/BookThumbnail.css'
 import { useNavigate } from "react-router-dom"
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { TbShoppingBag } from "react-icons/tb";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useEffect, useState } from "react";
 
 
 
-const BookThumbnail = (bookResult:book) =>{
+const BookThumbnail = ({bookResult, userBookList, setBookList}:{bookResult:book, userBookList:book[], setBookList:React.Dispatch<React.SetStateAction<book[]>>}) =>{
 
-
+    const axiosPrivate = useAxiosPrivate()
+    const [isInUserList, setIsInUserList] = useState(false)
 
     const nav = useNavigate()
 
@@ -16,6 +20,11 @@ const BookThumbnail = (bookResult:book) =>{
         nav(`/books/${bookResult.id}`,  {state:{book:bookResult}})
 
     }
+
+    useEffect(()=>{
+       setIsInUserList(userBookList.some((book)=> book.id === bookResult.id))
+
+    }, [])
 
     
 
@@ -25,8 +34,15 @@ const BookThumbnail = (bookResult:book) =>{
 
     const addBookToReadingList = () => {
         
-        return
+        axiosPrivate.post('/bookshelves/books', {book:bookResult})
+        setIsInUserList(true)
 
+    }
+
+    const removeFromReadingList = () => {
+        axiosPrivate.delete(`/bookshelves/books/${bookResult.id}`)
+        setBookList(prev=>prev.filter((book) => book.id !== bookResult.id))
+        setIsInUserList(false)
     }
 
     return(
@@ -43,9 +59,13 @@ const BookThumbnail = (bookResult:book) =>{
                     </div>
                     <div className="interaction">
                         <div className="save">
-                            <button className="add-bookshelf-button">
+                            {isInUserList ? 
+                            <button onClick={() => removeFromReadingList()} className="add-bookshelf-button">
+                            <IoIosRemoveCircleOutline  size={15}style={{position:'absolute', left:'10px', top:'10px'}}></IoIosRemoveCircleOutline>
+                            Remove From Bookshelf</button> 
+                            :<button onClick={() => addBookToReadingList()} className="add-bookshelf-button">
                                 <IoIosAddCircleOutline  size={15}style={{position:'absolute', left:'10px', top:'10px'}}></IoIosAddCircleOutline>
-                                Add To Bookshelf</button>
+                                Add To Bookshelf</button>}
                             {bookResult.saleInfo.buyLink && <button onClick={() => openBuyLink()} className="buy-button">
                                 <TbShoppingBag size={15} style={{position:'absolute', left:'10px', top:'10px'}}></TbShoppingBag>
                                 
