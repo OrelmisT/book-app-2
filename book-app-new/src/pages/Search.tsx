@@ -43,17 +43,20 @@ const Search =  () =>{
             </select>
         </div>
 
-        <div className='grid'>
             { queryIsLoading ? 
 
-                <Box  sx={{ display: 'flex', marginLeft:'auto', marginRight:'auto'}}>
-                    <CircularProgress></CircularProgress>
-                </Box>
-            
-            :queryResults.map((bookResult, index) => 
-                <BookThumbnail {...bookResult} key={index}></BookThumbnail>
-            )}
-        </div>
+                    <div className='progress-container'>
+
+                        <CircularProgress></CircularProgress>
+                    </div>
+                
+                :   
+                <div className='book-results'>
+                    {queryResults.map((bookResult, index) => 
+                        <BookThumbnail {...bookResult} key={index}></BookThumbnail>
+                        )}
+                </div>
+            }
 
     </div>)
 }
